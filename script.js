@@ -2,7 +2,7 @@ let loadedPosts;
 
 const postForm = document.querySelector("#postForm");
 
-const load = async (postsNum) => {
+const load = async (Num) => {
   try {
     const response = await fetch("https://jsonplaceholder.typicode.com/posts");
     const posts = await response.json();
@@ -13,6 +13,7 @@ const load = async (postsNum) => {
         localStorage.getItem("addedPosts") === null
           ? posts
           : JSON.parse(localStorage.getItem("addedPosts"));
+      loadedPosts = loadedPosts.splice(loadedPosts.length - Num, Num);
     } else {
       return new Error("Failed to fetch");
     }
@@ -21,12 +22,12 @@ const load = async (postsNum) => {
   }
 };
 
-const showPosts = async (Num) => {
+const showPosts = async (Num = 10) => {
   await load(Num);
 
   const postsSection = document.querySelector("section.posts");
   postsSection.innerHTML = "";
-  
+
   for (const post of loadedPosts) {
     // Make the structure for every post
     const postStructure = document.createElement("div");
@@ -39,9 +40,12 @@ const showPosts = async (Num) => {
 
     // Add the post to the posts section
     postsSection.appendChild(postStructure);
-    postsSection.innerHTML += "<button>Edit</button><button>Delete</button>";
+    postsSection.innerHTML +=
+      "<button>Edit</button><button class = 'delete'>Delete</button>";
   }
 };
+
+showPosts();
 
 const addPost = async (e) => {
   e.preventDefault();
@@ -49,7 +53,8 @@ const addPost = async (e) => {
   const formData = new FormData(postForm);
   const newPost = {
     title: formData.get("title"),
-    body: formData.get("body")
+    body: formData.get("body"),
+    id: loadedPosts[loadedPosts.length - 1]["id"] + 1,
   };
 
   try {
@@ -63,6 +68,7 @@ const addPost = async (e) => {
 
     if (response.ok) {
       const postObj = await response.json();
+      postObj.id = newPost.id;
       loadedPosts.push(postObj);
       localStorage.setItem("addedPosts", JSON.stringify(loadedPosts));
       showPosts();
@@ -73,6 +79,5 @@ const addPost = async (e) => {
   }
 };
 
-postForm.addEventListener("submit", addPost)
+postForm.addEventListener("submit", addPost);
 
-showPosts(10);
