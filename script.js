@@ -1,47 +1,45 @@
 let loadedPosts;
 
 const postForm = document.querySelector("#postForm");
+const postsSection = document.querySelector("section.posts");
 
-const load = async (Num) => {
+const load = async (num) => {
   try {
     const response = await fetch("https://jsonplaceholder.typicode.com/posts");
     const posts = await response.json();
-    // posts.length = postsNum;
+    posts.length = num;
 
     if (response.ok) {
-      loadedPosts =
-        localStorage.getItem("addedPosts") === null
-          ? posts
-          : JSON.parse(localStorage.getItem("addedPosts"));
-      loadedPosts = loadedPosts.splice(loadedPosts.length - Num, Num);
-    } else {
-      return new Error("Failed to fetch");
+      loadedPosts = posts;
+      console.log("Posts successfully loaded");
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-const showPosts = async (Num = 10) => {
-  await load(Num);
+const showPosts = async () => {
+  if (loadedPosts == null) {
+    await load(10);
+  }
 
-  const postsSection = document.querySelector("section.posts");
   postsSection.innerHTML = "";
 
   for (const post of loadedPosts) {
     // Make the structure for every post
     const postStructure = document.createElement("div");
+    postStructure.id = post["id"];
     const titleText = document.createElement("h1");
     titleText.innerText = post["title"];
     const bodyText = document.createElement("p");
     bodyText.innerText = post["body"];
     postStructure.appendChild(titleText);
     postStructure.appendChild(bodyText);
+    postStructure.innerHTML +=
+      "<button class = 'edit'>Edit</button><button class = 'delete'>Delete</button>";
 
     // Add the post to the posts section
     postsSection.appendChild(postStructure);
-    postsSection.innerHTML +=
-      "<button>Edit</button><button class = 'delete'>Delete</button>";
   }
 };
 
@@ -70,9 +68,9 @@ const addPost = async (e) => {
       const postObj = await response.json();
       postObj.id = newPost.id;
       loadedPosts.push(postObj);
-      localStorage.setItem("addedPosts", JSON.stringify(loadedPosts));
       showPosts();
       postForm.reset();
+      console.log("You have Posted new content");
     }
   } catch (error) {
     console.log(error);
@@ -81,3 +79,35 @@ const addPost = async (e) => {
 
 postForm.addEventListener("submit", addPost);
 
+const deletePost = async (event) => {
+  const button = event.target;
+  const postToDelete = button.closest("div");
+
+  try {
+    const deleteResponse = await fetch(
+      `https://jsonplaceholder.typicode.com/posts/${postToDelete.id}`,
+      {
+        method: "DElETE",
+      },
+    );
+
+    if (deleteResponse.ok) {
+      postToDelete.remove();
+      console.log("Post Deleted")
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+postsSection.addEventListener("click", (event) => {
+    const btn = event.target;
+    switch (btn.classList.value) {
+        case "delete":
+            deletePost(event);
+            break;
+        case "edit":
+            editPost(event);
+            break;
+    }
+});
