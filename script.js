@@ -5,6 +5,8 @@ let loadedPosts = [];
 const nodes = {
   form: document.querySelector("#postForm"),
   section: document.querySelector("section.posts"),
+  main: document.querySelector("main"),
+  separator: document.createElement("div")
 };
 
 // API Services
@@ -41,7 +43,7 @@ const api = {
     });
 
     if (!response.ok) {
-        console.error(`Update failed with status: ${response.status}`)
+      console.error(`Update failed with status: ${response.status}`);
     }
     return response.ok;
   },
@@ -51,18 +53,24 @@ const api = {
 const render = {
   post(postInfo) {
     const assay = document.createElement("div");
+    assay.classList = "hover assayStyle";
     const header = document.createElement("h1");
+    header.classList = "title";
     const text = document.createElement("p");
+    text.classList = "text";
 
     header.innerText = postInfo.title;
     text.innerText = postInfo.body;
 
     assay.id = postInfo.id;
     assay.appendChild(header);
+    assay.innerHTML += "<hr>";
     assay.appendChild(text);
-    assay.innerHTML +=
-      "<button class='edit'>Edit</button><button class='delete'>Delete</button>";
-
+    assay.innerHTML += `<button class='delete'><svg class='delete' width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect class='delete' x="0.5" y="0.5" width="31" height="31" rx="7.5" fill="none" stroke="#000000"/>
+        <line class='delete' x1="9.70711" y1="9.00002" x2="23" y2="22.2929" stroke="#000000" stroke-linecap="round"/>
+        <line class='delete' x1="9" y1="22.2929" x2="22.2929" y2="9" stroke="#000000" stroke-linecap="round"/>
+        </svg></button>`;
     return assay;
   },
 
@@ -74,11 +82,19 @@ const render = {
   },
 
   editForm(post) {
-    post.innerHTML = `<form id="editForm">
-        <input type="text" name="title" class="title" required/>
-        <textarea name="body" class="body" required></textarea>
+    const form = document.createElement("div");
+    const postIndex = loadedPosts.findIndex((p) => p.id === parseInt(post.id));
+
+    nodes.separator.classList = "separator";
+    form.id = post.id;
+    form.classList = "assayStyle editForm";
+    form.innerHTML = `<form id="editForm">
+        <textarea name="title"class="title" rows="2" required>${loadedPosts[postIndex].title}</textarea><hr>
+        <textarea name="body" class="text" required>${loadedPosts[postIndex].body}</textarea>
         <button class="save">Save</button>
-        </form>`;
+        </form></div>`;
+    nodes.separator.appendChild(form);
+    nodes.main.appendChild(nodes.separator);
     nodes.editForm = document.querySelector("#editForm");
   },
 };
@@ -153,19 +169,24 @@ nodes.form.addEventListener("submit", addPost);
 
 nodes.section.addEventListener("click", (e) => {
   const post = e.target.closest("div");
-
   switch (e.target.classList.value) {
     case "delete":
       deletePost(post.id, post);
       break;
-    case "edit":
+    case "save":
+      addPost(e);
+      break;
+    default:
       render.editForm(post);
       break;
-    case "save":
-      console.log(post);
-      editPost(e, post.id);
-      break;
   }
+});
+
+nodes.separator.addEventListener("submit", (e) => {
+    let post = e.target.closest("div");
+    editPost(e, post.id);
+    post = post.closest(".separator");
+    post.remove();
 });
 
 Initialization(10);

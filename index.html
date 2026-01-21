@@ -9,12 +9,14 @@
   </head>
   <body>
     <main>
-      <section class="posts"></section>
-      <form id="postForm">
-        <input type="text" name="title" class="title" required/>
-        <textarea name="body" class="body" required></textarea>
-        <input type="submit"/>
-      </form>
+      <div class="container">
+          <section class="posts"></section>
+          <form id="postForm" class="assayStyle">
+            <textarea name="title" class="title" placeholder="Title........" required></textarea>
+            <textarea name="body" class="body" placeholder="Text goes here......" required></textarea>
+            <button class="save">Submit</button>
+          </form>
+      </div>
     </main>
   </body>
 </html>
