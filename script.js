@@ -30,6 +30,21 @@ const api = {
     });
     return response.ok;
   },
+
+  async changePost(id, updatedContent) {
+    const response = await fetch(`${url}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedContent),
+    });
+
+    if (!response.ok) {
+        console.error(`Update failed with status: ${response.status}`)
+    }
+    return response.ok;
+  },
 };
 
 // UI rendering
@@ -56,6 +71,15 @@ const render = {
     const fragment = document.createDocumentFragment();
     posts.forEach((postObj) => fragment.appendChild(render.post(postObj)));
     nodes.section.appendChild(fragment);
+  },
+
+  editForm(post) {
+    post.innerHTML = `<form id="editForm">
+        <input type="text" name="title" class="title" required/>
+        <textarea name="body" class="body" required></textarea>
+        <button class="save">Save</button>
+        </form>`;
+    nodes.editForm = document.querySelector("#editForm");
   },
 };
 
@@ -85,38 +109,63 @@ const addPost = async (e) => {
 const deletePost = async (id, element) => {
   try {
     if (await api.deletePost(id)) {
-        loadedPosts = loadedPosts.filter(posts => posts.id !== parseInt(id));
-        element.remove();
+      loadedPosts = loadedPosts.filter((posts) => posts.id !== parseInt(id));
+      element.remove();
     }
   } catch (error) {
-    console.error("Delete error:", error)
+    console.error("Delete error:", error);
   }
-}
+};
+
+const editPost = async (e, id) => {
+  e.preventDefault();
+
+  const editFormData = new FormData(nodes.editForm);
+  const postUpdate = {
+    title: editFormData.get("title"),
+    body: editFormData.get("body"),
+  };
+
+  const postIndex = loadedPosts.findIndex((p) => p.id === parseInt(id));
+  try {
+    if (await api.changePost(id, postUpdate)) {
+      loadedPosts[postIndex].title = postUpdate.title;
+      loadedPosts[postIndex].body = postUpdate.body;
+      render.allPosts(loadedPosts);
+    }
+  } catch (error) {
+    console.error("Failed to Edit the post:", error);
+  }
+};
 
 // Initialization
 const Initialization = async (num) => {
-    try {
-        loadedPosts = await api.fetchPosts(num);
-        render.allPosts(loadedPosts)
-    } catch (error) {
-        nodes.section.innerHTML = "Failed to fetch posts";
-    }
-}
+  try {
+    loadedPosts = await api.fetchPosts(num);
+    render.allPosts(loadedPosts);
+  } catch (error) {
+    nodes.section.innerHTML = "Failed to fetch posts";
+  }
+};
 
 // Event listeners
 nodes.form.addEventListener("submit", addPost);
 
 nodes.section.addEventListener("click", (e) => {
-    const post = e.target.closest("div");
+  const post = e.target.closest("div");
 
-    switch (e.target.classList.value) {
-        case "delete":
-            deletePost(post.id, post)
-            break;
-        case "edit":
-            editPost();
-            break;
-    }
+  switch (e.target.classList.value) {
+    case "delete":
+      deletePost(post.id, post);
+      break;
+    case "edit":
+      render.editForm(post);
+      break;
+    case "save":
+      console.log(post);
+      editPost(e, post.id);
+      break;
+  }
 });
 
 Initialization(10);
