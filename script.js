@@ -82,6 +82,7 @@ const render = {
   },
 
   editForm(post) {
+    nodes.separator = document.createElement("div");
     const form = document.createElement("div");
     const postIndex = loadedPosts.findIndex((p) => p.id === parseInt(post.id));
 
