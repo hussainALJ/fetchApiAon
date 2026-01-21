@@ -6,7 +6,6 @@ const nodes = {
   form: document.querySelector("#postForm"),
   section: document.querySelector("section.posts"),
   main: document.querySelector("main"),
-  separator: document.createElement("div")
 };
 
 // API Services
@@ -66,7 +65,7 @@ const render = {
     assay.appendChild(header);
     assay.innerHTML += "<hr>";
     assay.appendChild(text);
-    assay.innerHTML += `<button class='delete'><svg class='delete' width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    assay.innerHTML += `<hr><button class='delete'><svg class='delete' width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect class='delete' x="0.5" y="0.5" width="31" height="31" rx="7.5" fill="none" stroke="#000000"/>
         <line class='delete' x1="9.70711" y1="9.00002" x2="23" y2="22.2929" stroke="#000000" stroke-linecap="round"/>
         <line class='delete' x1="9" y1="22.2929" x2="22.2929" y2="9" stroke="#000000" stroke-linecap="round"/>
@@ -91,7 +90,7 @@ const render = {
     form.classList = "assayStyle editForm";
     form.innerHTML = `<form id="editForm">
         <textarea name="title"class="title" rows="2" required>${loadedPosts[postIndex].title}</textarea><hr>
-        <textarea name="body" class="text" required>${loadedPosts[postIndex].body}</textarea>
+        <textarea name="body" class="text" required>${loadedPosts[postIndex].body}</textarea><hr>
         <button class="save">Save</button>
         </form></div>`;
     nodes.separator.appendChild(form);
@@ -183,11 +182,13 @@ nodes.section.addEventListener("click", (e) => {
   }
 });
 
-nodes.separator.addEventListener("submit", (e) => {
+nodes.main.addEventListener("submit", (e) => {
+    if (e.target.id === "editForm") {
     let post = e.target.closest("div");
     editPost(e, post.id);
     post = post.closest(".separator");
     post.remove();
+    }
 });
 
 Initialization(10);
