@@ -48,11 +48,11 @@ const api = {
     return response.ok;
   },
 
-  async fetchComments(id, limit = 5) {
-    const response = await fetch (`${url}/${id}/comments?_limit=${limit}`);
+  async fetchComments(id) {
+    const response = await fetch(`${url}/${id}/comments`);
     if (!response.ok) "Failed to load comments";
     return response.json();
-  }
+  },
 };
 
 // UI rendering
@@ -72,9 +72,12 @@ const render = {
     const commentsBtn = document.createElement("h3");
     commentsBtn.classList = "view";
     commentsBtn.innerText = "View comments";
-    const commentSection = document.createElement("section")
-    commentSection.classList = "comments"
-    commentSection.appendChild(commentsBtn)
+    const comments = document.createElement("div")
+    comments.classList = "comments";
+    const commentSection = document.createElement("div");
+    commentSection.classList = "commentSection";
+    commentSection.append(commentsBtn, comments);
+    
     const assayFooter = document.createElement("div");
     assayFooter.classList = "assayFooter";
     assayFooter.appendChild(commentSection);
@@ -87,14 +90,14 @@ const render = {
     assay.appendChild(header);
     assay.innerHTML += "<hr>";
     assay.appendChild(text);
-    assay.innerHTML += '<hr>';
+    assay.innerHTML += "<hr>";
     assay.appendChild(assayFooter);
     return assay;
   },
 
-  viewComments (postId, commentsArr) {
+  viewComments(postId, commentsArr) {
     const post = document.getElementById(`${postId}`);
-    const comments = post.querySelector(".comments")
+
     const fragment = document.createDocumentFragment();
     commentsArr.forEach((commentObj) => {
       const name = document.createElement("h3");
@@ -103,13 +106,19 @@ const render = {
       const text = document.createElement("p");
       text.innerText = commentObj.body;
 
-      const comment = document.createElement("div")
+      const comment = document.createElement("div");
       comment.id = parseInt(commentObj.id);
-      comment.classList = "comment"
+      comment.classList = "comment";
       comment.append(name, text);
 
       fragment.appendChild(comment);
-    })
+    });
+
+    const commentsBtn = post.querySelector(".view");
+    commentsBtn.classList = "hide";
+    commentsBtn.innerText = "Hide comments";
+    const comments = post.querySelector(".comments");
+
     comments.appendChild(fragment);
   },
 
@@ -201,9 +210,9 @@ const loadComments = async (id) => {
     render.viewComments(id, postComments);
   } catch (error) {
     const post = document.getElementById(`${id}`);
-    post.innerText = "Failed to loadComments"
+    post.innerText = "Failed to load Comments";
   }
-}
+};
 
 // Initialization
 const Initialization = async (num) => {
@@ -230,6 +239,11 @@ nodes.section.addEventListener("click", (e) => {
     case "view":
       loadComments(post.id);
       break;
+    case "hide":
+      post.querySelector(".comments").innerHTML = "";
+      e.target.innerText = "View comments";
+      e.target.classList = "view";
+      break;
     default:
       render.editForm(post);
       break;
@@ -237,13 +251,13 @@ nodes.section.addEventListener("click", (e) => {
 });
 
 nodes.main.addEventListener("submit", (e) => {
-    if (e.target.id === "editForm") {
+  if (e.target.id === "editForm") {
     let editMenu = e.target.closest("div");
     editPost(e, editMenu.id);
     editMenu = editMenu.closest(".separator");
     editMenu.remove();
     nodes.body.classList = "";
-    }
+  }
 });
 
 Initialization(10);
