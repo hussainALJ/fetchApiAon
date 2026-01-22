@@ -1,216 +1,263 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 * {
-    padding: 0px;
-    margin: 0px;
-    box-sizing: border-box;
-    font-family: "Inter", sans-serif;
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
 }
 
 body {
-    background-color: #eef;
+  background-color: #eef;
 }
 
 .container {
-    max-width: 750px;
-    margin: 10px auto;
-    padding: 30px;
+  max-width: 750px;
+  margin: 10px auto;
+  padding: 30px;
 }
 
 .flex {
-    display: flex;
+  display: flex;
 }
 
 button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    display: block;
-    margin-top: 10px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: block;
+  margin-top: 10px;
 }
 
 .noScroll {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .save {
-    margin-left: auto;
-    font-size: 16px;
-    padding: 0 10px;
-    border: #000 solid 1px;
-    border-radius: 8px;
+  margin-left: auto;
+  font-size: 16px;
+  padding: 0 10px;
+  border: #000 solid 1px;
+  border-radius: 8px;
 }
 
 .save:hover {
-    background-color: #0f08;
+  background-color: #0f08;
 }
 
 textarea {
-    background-color: transparent;
-    border: none;
-    resize: none;
-    field-sizing: content;
-    padding: 5px;
-    width: 100%;
+  background-color: transparent;
+  border: none;
+  resize: none;
+  field-sizing: content;
+  padding: 5px;
+  width: 100%;
 }
 
 textarea:focus-visible {
-    outline: none;
+  outline: none;
 }
 
-
-
 .title {
-    display: block;
-    font-size: 2em;
-    margin: 10px 0 20px;
-    font-weight: bold;
+  display: block;
+  font-size: 2em;
+  margin: 10px 0 20px;
+  font-weight: bold;
 }
 
 .text {
-    display: block;
-    font-size: 16px;
-    padding: 10px 0 20px;
+  display: block;
+  font-size: 16px;
+  padding: 10px 0 20px;
 }
 
 .hover:hover {
-    transition: background-color 200ms ease;
-    transform: translate(-10px, -5px);
-    background-color: #5959ffad;
+  transition: background-color 200ms ease;
+  transform: translate(-10px, -5px);
+  background-color: #5959ffad;
 }
 
-.article-hero {
-  display: flex;
-  align-items: center;
-  height: 60vh;
-  background: #f8f9fa;
-  overflow: hidden;
-  box-shadow: 2px 0 16px #000010;
-  border-radius: 0px 0px 16px 16px;
+/* .article-hero {
+  display: block;
 }
 
 .hero-content {
-  flex: 1;
-  padding: 4rem;
-  max-width: 1300px;
+  position: absolute;
+  background-color: #f8f9fa;
+  padding: 4rem 0.5rem;
+  margin: 0 6rem;
+  height: inherit;
 }
+
+.hero-content h1 {
+  font-size: 2.5rem;
+  margin: 1rem;
+}
+
+.hero-visual img {
+  object-position: 45%;
+} 
+
+.article-hero {
+  background-image: url('./img-01.avif');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  min-height: 400px; 
+}
+
+.hero-content {
+  background: white;
+  z-index: 1000;
+  padding: 2rem;
+} */
+
+.article-hero {
+  background-image: url("./img-01.avif");
+  background-size: 150%;
+  background-position: 60%;
+  background-repeat: no-repeat;
+  min-height: 300px;
+  box-shadow: 2px 0 16px #000010;
+  border-radius: 0 0 16px 16px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.hero-content {
+  background-color: #f8f9fa;
+  margin: 0 5rem;
+  min-height: 300px;
+  padding: 1rem;
+}
+
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: 2px;
   color: #6c757d;
   font-weight: 600;
+  font-size: 0.5em;
 }
+
 .hero-content h1 {
-  font-size: 3.5rem;
-  margin: 1.5rem 0;
+  font-size: 1.5rem;
+  margin: 0.5rem 0 1rem;
   line-height: 1.1;
 }
-.hero-visual {
-  flex: 1;
-  height: 100%;
+
+.hero-content p {
+  font-size: 1em;
 }
+
 .hero-visual img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 28%;
+  display: none;
 }
 
-@media (max-width: 600px) {
-    .article-hero {
-        display: block;
-    }
+@media (min-width: 600px) {
+  .article-hero {
+    background-color: #f8f9fa;
+    background-image: none;
+    display: flex;
+    align-items: center;
+    height: 50vh;
+  }
 
-    .hero-content {
-        position: absolute;
-        background-color: #f8f9fa;
-        padding: 4rem 0.5rem;
-        margin: 0 6rem;
-        height: inherit;
-    }
+  .hero-content {
+    flex: 1;
+  }
 
-    .hero-content h1 {
-        font-size: 2.5rem;
-        margin: 1rem;
-    }
+  .hero-content h1 {
+    font-size: 2rem;
+    margin: 1.5rem 0;
+    line-height: 1.1;
+  }
 
-    .hero-visual img {
-        object-position: 45%;
-    }
+  .hero-visual {
+    flex: 1;
+    height: 100%;
+  }
+
+  .hero-visual img {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: 30%;
+    border-radius: 0 0 16px 0;
+  }
 }
 
 .assayStyle {
-    cursor: pointer;
-    background-color: #f8f9fa;
-    backdrop-filter: blur(20px); 
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 
-        8px 8px 16px 4px #1f26875e;
-    border-radius: 16px;
-    padding: 10px 30px;
-    margin-bottom: 30px;
+  cursor: pointer;
+  background-color: #f8f9fa;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 8px 8px 16px 4px #1f26875e;
+  border-radius: 16px;
+  padding: 10px 30px;
+  margin-bottom: 30px;
 }
 
 .commentSection {
-    padding: 10px 0;
+  padding: 10px 0;
 }
 
 .commentSection .hide {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .comment {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .comment h3 {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 main .delete {
-    margin-left: auto;
-    margin-bottom: auto;
+  margin-left: auto;
+  margin-bottom: auto;
 }
 
-main .delete:hover rect{
-    fill: #ff000055;
+main .delete:hover rect {
+  fill: #ff000055;
 }
-
 
 main .separator {
-    position: fixed;
-    z-index: 999;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(2px);
-    padding: 10px;
+  position: fixed;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(2px);
+  padding: 10px;
 }
 
 main .editForm {
-    cursor: default;
-    position: relative;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 710px;
-    width: 100%;
-
+  cursor: default;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 710px;
+  width: 100%;
 }
 
 footer .container {
-    position: fixed;
-    top: 112%;
-    left: 50%;
-    transform: translate(-50%, -100%);
-    max-width: 710px;
-    width: 100%;
-    padding: 0px 20px;
-    transition: top 0.5s ease;
+  position: fixed;
+  top: 112%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  max-width: 710px;
+  width: 100%;
+  padding: 0px 20px;
+  transition: top 0.5s ease;
 }
 
 footer .container:hover {
-    top: 97%;
+  top: 97%;
 }
