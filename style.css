@@ -155,8 +155,6 @@ textarea:focus-visible {
 .assayStyle {
   cursor: pointer;
   background-color: #f8f9fa;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   box-shadow: 8px 8px 16px 4px #1f26875e;
   border-radius: 16px;
   padding: 10px 30px;
