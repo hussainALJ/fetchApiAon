@@ -13,6 +13,10 @@
     padding: 30px;
 }
 
+.flex {
+    display: flex;
+}
+
 button {
     background-color: transparent;
     border: none;
@@ -84,6 +88,22 @@ textarea:focus-visible {
     border-radius: 16px;
     padding: 10px 30px;
     margin-bottom: 30px;
+}
+
+.commentSection {
+    padding: 10px 0;
+}
+
+.commentSection .hide {
+    margin-bottom: 20px;
+}
+
+.comment {
+    margin-bottom: 10px;
+}
+
+.comment h3 {
+    margin-bottom: 5px;
 }
 
 main .delete {

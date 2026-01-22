@@ -62,9 +62,17 @@ const render = {
     assay.id = postInfo.id;
     assay.classList = "hover assayStyle";
 
+    const headerFlex = document.createElement("div");
+    headerFlex.classList = "flex";
     const header = document.createElement("h1");
     header.classList = "title";
     header.innerText = postInfo.title;
+    headerFlex.appendChild(header);
+    headerFlex.innerHTML += `<button class='delete'><svg class='delete' width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect class='delete' x="0.5" y="0.5" width="31" height="31" rx="7.5" fill="none" stroke="#000000"/>
+        <line class='delete' x1="9.70711" y1="9.00002" x2="23" y2="22.2929" stroke="#000000" stroke-linecap="round"/>
+        <line class='delete' x1="9" y1="22.2929" x2="22.2929" y2="9" stroke="#000000" stroke-linecap="round"/>
+        </svg></button>`;
     const text = document.createElement("p");
     text.classList = "text";
     text.innerText = postInfo.body;
@@ -77,21 +85,12 @@ const render = {
     const commentSection = document.createElement("div");
     commentSection.classList = "commentSection";
     commentSection.append(commentsBtn, comments);
-    
-    const assayFooter = document.createElement("div");
-    assayFooter.classList = "assayFooter";
-    assayFooter.appendChild(commentSection);
-    assayFooter.innerHTML += `<button class='delete'><svg class='delete' width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect class='delete' x="0.5" y="0.5" width="31" height="31" rx="7.5" fill="none" stroke="#000000"/>
-        <line class='delete' x1="9.70711" y1="9.00002" x2="23" y2="22.2929" stroke="#000000" stroke-linecap="round"/>
-        <line class='delete' x1="9" y1="22.2929" x2="22.2929" y2="9" stroke="#000000" stroke-linecap="round"/>
-        </svg></button>`;
 
-    assay.appendChild(header);
+    assay.appendChild(headerFlex);
     assay.innerHTML += "<hr>";
     assay.appendChild(text);
     assay.innerHTML += "<hr>";
-    assay.appendChild(assayFooter);
+    assay.appendChild(commentSection);
     return assay;
   },
 
@@ -244,8 +243,13 @@ nodes.section.addEventListener("click", (e) => {
       e.target.innerText = "View comments";
       e.target.classList = "view";
       break;
-    default:
+    case "title":
+    case "text":
+    case "flex":
       render.editForm(post);
+      break;
+    default:
+      console.log(e.target.classList.value);
       break;
   }
 });
