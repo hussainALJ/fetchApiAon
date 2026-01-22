@@ -90,7 +90,7 @@ textarea:focus-visible {
 }
 
 .hero-content {
-  flex: 2;
+  flex: 1;
   padding: 4rem;
   max-width: 1300px;
 }
@@ -114,6 +114,29 @@ textarea:focus-visible {
   height: 100%;
   object-fit: cover;
   object-position: 28%;
+}
+
+@media (max-width: 600px) {
+    .article-hero {
+        display: block;
+    }
+
+    .hero-content {
+        position: absolute;
+        background-color: #f8f9fa;
+        padding: 4rem 0.5rem;
+        margin: 0 6rem;
+        height: inherit;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+        margin: 1rem;
+    }
+
+    .hero-visual img {
+        object-position: 45%;
+    }
 }
 
 .assayStyle {
