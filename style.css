@@ -7,12 +7,22 @@
     font-family: "Inter", sans-serif;
 }
 
+.container {
+    max-width: 750px;
+    margin: 10px auto;
+    padding: 30px;
+}
+
 button {
     background-color: transparent;
     border: none;
     cursor: pointer;
     display: block;
     margin-top: 10px;
+}
+
+.noScroll {
+    overflow: hidden;
 }
 
 .save {
@@ -40,11 +50,7 @@ textarea:focus-visible {
     outline: none;
 }
 
-.container {
-    max-width: 750px;
-    margin: 10px auto;
-    padding: 30px;
-}
+
 
 .title {
     display: block;
@@ -65,7 +71,7 @@ textarea:focus-visible {
     background-color: #5959ffad;
 }
 
-main .assayStyle {
+.assayStyle {
     cursor: pointer;
     background-color: #00001036;
     backdrop-filter: blur(20px);   
@@ -76,12 +82,13 @@ main .assayStyle {
         inset 0 -2px 16px #00001026,
         inset -2px 0 16px #00001026; 
     border-radius: 16px;
-    padding: 30px;
+    padding: 10px 30px;
     margin-bottom: 30px;
 }
 
 main .delete {
     margin-left: auto;
+    margin-bottom: auto;
 }
 
 main .delete:hover rect{
@@ -112,6 +119,17 @@ main .editForm {
 
 }
 
+footer .container {
+    position: fixed;
+    top: 112%;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    max-width: 710px;
+    width: 100%;
+    padding: 0px 20px;
+    transition: top 0.5s ease;
+}
 
-
-
+footer .container:hover {
+    top: 97%;
+}
