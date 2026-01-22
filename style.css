@@ -216,6 +216,10 @@ textarea:focus-visible {
   margin-bottom: 5px;
 }
 
+main {
+  margin-bottom: 50px;
+}
+
 main .delete {
   margin-left: auto;
   margin-bottom: auto;
