@@ -60,7 +60,7 @@ const render = {
   post(postInfo) {
     const assay = document.createElement("div");
     assay.id = postInfo.id;
-    assay.classList = "hover assayStyle";
+    assay.classList = "assay hover assayStyle";
 
     const headerFlex = document.createElement("div");
     headerFlex.classList = "flex";
@@ -95,7 +95,7 @@ const render = {
   },
 
   viewComments(postId, commentsArr) {
-    const post = document.getElementById(`${postId}`);
+    const post = nodes.section.querySelector(`div#${CSS.escape(postId)}.assay`);
 
     const fragment = document.createDocumentFragment();
     commentsArr.forEach((commentObj) => {
@@ -156,7 +156,7 @@ const addPost = async (e) => {
   const newPost = {
     title: formData.get("title"),
     body: formData.get("body"),
-    id: loadedPosts[loadedPosts.length - 1].id + 1,
+    id: loadedPosts[loadedPosts.length - 1].id <= 100?  100 + 1: loadedPosts[loadedPosts.length - 1].id + 1,
   };
 
   try {
@@ -206,10 +206,9 @@ const editPost = async (e, id) => {
 const loadComments = async (id) => {
   try {
     const postComments = await api.fetchComments(id);
-    render.viewComments(id, postComments);
+    render.viewComments(id, postComments)
   } catch (error) {
-    const post = document.getElementById(`${id}`);
-    post.innerText = "Failed to load Comments";
+    console.error("Faild to load Comments", error)
   }
 };
 
